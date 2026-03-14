@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background circle -->
+  <rect width="32" height="32" rx="8" fill="#1F151C"/>
+  <!-- Chat bubble -->
+  <path d="M4 8C4 6.34 5.34 5 7 5H21C22.66 5 24 6.34 24 8V18C24 19.66 22.66 21 21 21H13L8 26V21H7C5.34 21 4 19.66 4 18V8Z" fill="#2a1e26" stroke="rgba(254,237,219,0.25)" stroke-width="0.5"/>
+  <!-- Three dots -->
+  <circle cx="10" cy="13" r="1.5" fill="#FEEDDB" opacity="0.85"/>
+  <circle cx="14" cy="13" r="1.5" fill="#FEEDDB" opacity="0.85"/>
+  <circle cx="18" cy="13" r="1.5" fill="#FEEDDB" opacity="0.85"/>
+  <!-- Heart -->
+  <path d="M22 7C22 5 24.5 3.5 26 5.5C27.5 3.5 30 5 30 7C30 10 26 13 26 14C26 13 22 10 22 7Z" fill="#C56F8C"/>
+</svg>

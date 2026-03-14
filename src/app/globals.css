@@ -2,22 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #1F151C;
+  --foreground: #FEEDDB;
+  --surface: rgba(254, 237, 219, 0.03);
+  --surface-strong: rgba(254, 237, 219, 0.06);
+  --stroke: rgba(254, 237, 219, 0.08);
+  --stroke-strong: rgba(254, 237, 219, 0.12);
+  --shadow-soft: 0 18px 50px -24px rgba(0, 0, 0, 0.65);
+  --shadow-glass: 0 0 0 1px rgba(254,237,219,0.04), 0 18px 50px -24px rgba(0,0,0,0.65);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Apple-ish selection + tap highlight */
+::selection {
+  background: rgba(197, 111, 140, 0.35);
+  color: #FEEDDB;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Softer, more “Apple” focus outline */
+:focus-visible {
+  outline: 2px solid rgba(197, 111, 140, 0.5);
+  outline-offset: 3px;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @layer utilities {
@@ -25,3 +46,540 @@ body {
     text-wrap: balance;
   }
 }
+
+/* ═══════════════════════════════════════════════════ */
+/*  ANIMATED MESH GRADIENT BACKGROUND                  */
+/* ═══════════════════════════════════════════════════ */
+.mesh-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mesh-gradient::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background:
+    radial-gradient(ellipse 40% 50% at 20% 20%, rgba(197,111,140,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 40% at 70% 15%, rgba(88,56,43,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 45% at 80% 70%, rgba(197,111,140,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 30% 80%, rgba(88,56,43,0.1) 0%, transparent 55%);
+  animation: mesh-drift 20s ease-in-out infinite;
+}
+
+@keyframes mesh-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(3%, -4%) rotate(1deg); }
+  50% { transform: translate(-2%, 3%) rotate(-0.5deg); }
+  75% { transform: translate(4%, 2%) rotate(0.5deg); }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  FLOATING PARTICLES                                 */
+/* ═══════════════════════════════════════════════════ */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(254, 237, 219, 0.15);
+}
+
+.particle:nth-child(1) { top: 15%; left: 10%; animation: particle-float 8s ease-in-out infinite 0s; }
+.particle:nth-child(2) { top: 25%; left: 30%; width: 3px; height: 3px; animation: particle-float 12s ease-in-out infinite 2s; background: rgba(197,111,140,0.2); }
+.particle:nth-child(3) { top: 45%; left: 70%; animation: particle-float 10s ease-in-out infinite 4s; }
+.particle:nth-child(4) { top: 65%; left: 20%; width: 3px; height: 3px; animation: particle-float 14s ease-in-out infinite 1s; background: rgba(197,111,140,0.15); }
+.particle:nth-child(5) { top: 80%; left: 55%; animation: particle-float 9s ease-in-out infinite 3s; }
+.particle:nth-child(6) { top: 35%; left: 85%; width: 2px; height: 2px; animation: particle-float 11s ease-in-out infinite 5s; background: rgba(197,111,140,0.12); }
+.particle:nth-child(7) { top: 55%; left: 45%; animation: particle-float 13s ease-in-out infinite 2.5s; }
+.particle:nth-child(8) { top: 10%; left: 60%; width: 3px; height: 3px; animation: particle-float 7s ease-in-out infinite 1.5s; background: rgba(254,237,219,0.1); }
+
+@keyframes particle-float {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  25% { transform: translate(10px, -20px) scale(1.5); opacity: 0.8; }
+  50% { transform: translate(-5px, -40px) scale(1); opacity: 0.5; }
+  75% { transform: translate(15px, -20px) scale(1.3); opacity: 0.7; }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  GRADIENT TEXT                                      */
+/* ═══════════════════════════════════════════════════ */
+.text-gradient {
+  background: linear-gradient(135deg, #FEEDDB 0%, #C56F8C 50%, #FEEDDB 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 4s ease-in-out infinite;
+}
+
+.text-gradient-warm {
+  background: linear-gradient(135deg, #FEEDDB 0%, #d98ba3 40%, #C56F8C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-hero {
+  background: linear-gradient(135deg, #FEEDDB 0%, #d98ba3 30%, #C56F8C 60%, #FEEDDB 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 6s ease-in-out infinite;
+}
+
+@keyframes text-shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  GLASS EFFECTS                                      */
+/* ═══════════════════════════════════════════════════ */
+.glass {
+  background: rgba(31, 21, 28, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(254, 237, 219, 0.08);
+}
+
+.glass-light {
+  background: rgba(254, 237, 219, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(254, 237, 219, 0.06);
+}
+
+.glass-nav {
+  background: rgba(31, 21, 28, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  GLOW ORBS                                          */
+/* ═══════════════════════════════════════════════════ */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.glow-orb-primary {
+  background: radial-gradient(circle, rgba(197,111,140,0.35) 0%, transparent 70%);
+}
+
+.glow-orb-warm {
+  background: radial-gradient(circle, rgba(88,56,43,0.4) 0%, transparent 70%);
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  MARQUEE SCROLL                                     */
+/* ═══════════════════════════════════════════════════ */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  ANIMATED BORDER GRADIENT                           */
+/* ═══════════════════════════════════════════════════ */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.border-gradient {
+  --border-angle: 0deg;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(31,21,28,0.9), rgba(31,21,28,0.9)) padding-box,
+    conic-gradient(
+      from var(--border-angle),
+      transparent 25%,
+      rgba(197,111,140,0.5) 50%,
+      transparent 75%
+    ) border-box;
+  animation: border-rotate 4s linear infinite;
+}
+
+.border-gradient-subtle {
+  --border-angle: 0deg;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(31,21,28,0.95), rgba(31,21,28,0.95)) padding-box,
+    conic-gradient(
+      from var(--border-angle),
+      transparent 30%,
+      rgba(197,111,140,0.3) 50%,
+      transparent 70%
+    ) border-box;
+  animation: border-rotate 6s linear infinite;
+}
+
+@keyframes border-rotate {
+  to { --border-angle: 360deg; }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  NOISE TEXTURE                                      */
+/* ═══════════════════════════════════════════════════ */
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Full-page noise overlay (subtle, behind all content) */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mesh-gradient::before,
+  .particle {
+    animation: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  SECTION DIVIDER                                    */
+/* ═══════════════════════════════════════════════════ */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(197,111,140,0.2) 20%,
+    rgba(197,111,140,0.4) 50%,
+    rgba(197,111,140,0.2) 80%,
+    transparent 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  HOVER EFFECTS                                      */
+/* ═══════════════════════════════════════════════════ */
+.hover-lift {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px -15px rgba(197,111,140,0.2);
+}
+
+.hover-glow {
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px -5px rgba(197,111,140,0.15);
+  border-color: rgba(197,111,140,0.2);
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  NUMBER STEP STYLE (sleep-well inspired)            */
+/* ═══════════════════════════════════════════════════ */
+.step-number {
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 1;
+  -webkit-text-stroke: 1px rgba(197,111,140,0.15);
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  SHINY CTA BUTTON                                   */
+/* ═══════════════════════════════════════════════════ */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --gradient-angle-offset {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --gradient-percent {
+  syntax: "<percentage>";
+  initial-value: 5%;
+  inherits: false;
+}
+
+@property --gradient-shine {
+  syntax: "<color>";
+  initial-value: white;
+  inherits: false;
+}
+
+.shiny-cta {
+  --shiny-cta-bg: #1F151C;
+  --shiny-cta-bg-subtle: #2a1e26;
+  --shiny-cta-fg: #FEEDDB;
+  --shiny-cta-highlight: #C56F8C;
+  --shiny-cta-highlight-subtle: #d98ba3;
+  --shiny-duration: 3s;
+  --shiny-transition: 800ms cubic-bezier(0.25, 1, 0.5, 1);
+
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  outline-offset: 4px;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: var(--shiny-cta-fg);
+  background:
+    linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg)) padding-box,
+    conic-gradient(
+      from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+      transparent,
+      var(--shiny-cta-highlight) var(--gradient-percent),
+      var(--gradient-shine) calc(var(--gradient-percent) * 2),
+      var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
+      transparent calc(var(--gradient-percent) * 4)
+    ) border-box;
+  box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
+  transition: var(--shiny-transition);
+  transition-property: --gradient-angle-offset, --gradient-percent, --gradient-shine;
+}
+
+.shiny-cta::before,
+.shiny-cta::after,
+.shiny-cta span::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+}
+
+.shiny-cta:active { translate: 0 1px; }
+
+.shiny-cta::before {
+  --size: calc(100% - 6px);
+  --position: 2px;
+  --space: calc(var(--position) * 2);
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(
+    circle at var(--position) var(--position),
+    white calc(var(--position) / 4),
+    transparent 0
+  ) padding-box;
+  background-size: var(--space) var(--space);
+  background-repeat: space;
+  mask-image: conic-gradient(
+    from calc(var(--gradient-angle) + 45deg),
+    black,
+    transparent 10% 90%,
+    black
+  );
+  border-radius: inherit;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.shiny-cta::after {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(
+    -50deg,
+    transparent,
+    var(--shiny-cta-highlight),
+    transparent
+  );
+  mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+  opacity: 0.6;
+}
+
+.shiny-cta span { z-index: 1; }
+
+.shiny-cta span::before {
+  --size: calc(100% + 1rem);
+  width: var(--size);
+  height: var(--size);
+  box-shadow: inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);
+  opacity: 0;
+  transition: opacity var(--shiny-transition);
+  animation: calc(var(--shiny-duration) * 1.5) shiny-breathe linear infinite;
+}
+
+.shiny-cta,
+.shiny-cta::before,
+.shiny-cta::after {
+  animation:
+    shiny-gradient-angle linear var(--shiny-duration) infinite,
+    shiny-shimmer linear calc(var(--shiny-duration) / 0.4) reverse paused infinite;
+  animation-composition: add;
+}
+
+.shiny-cta:is(:hover, :focus-visible) {
+  --gradient-percent: 20%;
+  --gradient-angle-offset: 95deg;
+  --gradient-shine: var(--shiny-cta-highlight-subtle);
+}
+
+.shiny-cta:is(:hover, :focus-visible),
+.shiny-cta:is(:hover, :focus-visible)::before,
+.shiny-cta:is(:hover, :focus-visible)::after {
+  animation-play-state: running;
+}
+
+.shiny-cta:is(:hover, :focus-visible) span::before {
+  opacity: 1;
+}
+
+@keyframes shiny-gradient-angle { to { --gradient-angle: 360deg; } }
+@keyframes shiny-shimmer { to { rotate: 360deg; } }
+@keyframes shiny-breathe { from, to { scale: 1; } 50% { scale: 1.2; } }
+
+/* ═══════════════════════════════════════════════════ */
+/*  SPARKLE BUTTON                                     */
+/* ═══════════════════════════════════════════════════ */
+.btn-sparkle {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-sparkle::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(197,111,140,0.15) 10%,
+    transparent 20%
+  );
+  animation: sparkle-rotate 3s linear infinite;
+  pointer-events: none;
+}
+
+.btn-sparkle::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: inherit;
+  z-index: 0;
+}
+
+.btn-sparkle > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes sparkle-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  CUSTOM SCROLLBAR                                   */
+/* ═══════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F151C;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(88,56,43,0.5);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(88,56,43,0.8);
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  PULSE RING ANIMATION                               */
+/* ═══════════════════════════════════════════════════ */
+.pulse-ring {
+  position: relative;
+}
+
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 2px solid rgba(197,111,140,0.3);
+  animation: pulse-ring-anim 2s ease-out infinite;
+}
+
+@keyframes pulse-ring-anim {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  CHAT BUBBLE MOCKUP                                 */
+/* ═══════════════════════════════════════════════════ */
+.chat-bubble-left {
+  background: rgba(254,237,219,0.08);
+  border-radius: 18px 18px 18px 4px;
+}
+
+.chat-bubble-right {
+  background: rgba(197,111,140,0.15);
+  border-radius: 18px 18px 4px 18px;
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  STAGGER ANIMATION                                  */
+/* ═══════════════════════════════════════════════════ */
+.stagger-1 { animation-delay: 0ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 200ms; }
+.stagger-4 { animation-delay: 300ms; }
+.stagger-5 { animation-delay: 400ms; }
